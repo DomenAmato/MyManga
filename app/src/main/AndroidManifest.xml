@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.domen.mymanga">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <permission
+        android:name="mymanga.provider.read"
+        android:label="@string/permission_label_read"
+        android:description="@string/permission_description_read"
+        android:protectionLevel="normal"
+        />
+
+    <permission
+        android:name="mymanga.provider.write"
+        android:label="@string/permission_label_write"
+        android:description="@string/permission_description_write"
+        android:protectionLevel="normal"
+        />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Activity.AllMangaActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="com.example.domen.mymanga.Models.MyMangaProvider"
+            android:authorities="it.mycompany.domen.mymanga.data"
+            android:readPermission="mymanga.provider.read"
+            android:writePermission="mymanga.provider.write"
+            />
+    </application>
+
+</manifest>
