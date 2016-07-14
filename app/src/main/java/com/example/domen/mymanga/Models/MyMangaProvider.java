@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.Models.MyMangaDb;
+import com.example.domen.mymanga.Utils.QueryHelper;
 
 public class MyMangaProvider extends ContentProvider {
 
@@ -112,15 +113,15 @@ public class MyMangaProvider extends ContentProvider {
     public int bulkInsert(Uri uri, ContentValues[] values) {
 
         final SQLiteDatabase myDb = db.getWritableDatabase();
-        myDb.beginTransaction();
 
         int returnCount = 0;
 
         switch (sUriMatcher.match(uri)) {
             case CODE_All_MANGA:
+                returnCount = QueryHelper.setBulkInsert(getContext(), Contract.Manga.TABLE_NAME, myDb, values);
                 break;
-            default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+           // default:
+           //     throw new UnsupportedOperationException("Unknown uri: " + uri);
 
         }
 

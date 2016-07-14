@@ -1,6 +1,5 @@
 package com.example.domen.mymanga.Activity;
 
-import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -10,17 +9,25 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.domen.mymanga.Models.AllMAngaAdapter;
 import com.example.domen.mymanga.Models.Contract;
-import com.example.domen.mymanga.Models.MyMangaDb;
 import com.example.domen.mymanga.R;
 import com.example.domen.mymanga.Utils.AutoSpanRecyclerView;
-import com.example.domen.mymanga.Utils.GridAutofitLayoutManager;
+import com.example.domen.mymanga.Utils.Manga;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 public class AllMangaActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -40,9 +47,34 @@ public class AllMangaActivity extends AppCompatActivity implements android.suppo
             editor.putBoolean("NotFirst", true);
             editor.commit();
 
+            InputStream jsonStream = getResources().openRawResource(R.raw.manga_default);
+            String mangaJSON;
+            ArrayList<Manga> allManga = new ArrayList<>();
+            String imURI = "https://cdn.mangaeden.com/mangasimg/200x/";
 
+            ArrayList<ContentValues> mangaContList = new ArrayList<>();
+            try {
+                mangaJSON = readIt(jsonStream);
+                JSONObject jObj = new JSONObject(mangaJSON);
+                JSONArray mangaList = jObj.getJSONArray("manga");
+                for(int i = 0; i < mangaList.length(); i++ ){
+                    JSONObject manga = mangaList.getJSONObject(i);
+                    ContentValues mangaCont = new ContentValues();
+                    mangaCont.put(Contract.Manga.COLUMN_MANGA_ID,manga.getString("i"));
+                    mangaCont.put(Contract.Manga.COLUMN_TITLE,manga.getString("t"));
+                    mangaCont.put(Contract.Manga.COLUMN_IMG,imURI+manga.getString("im"));
+                    mangaContList.add(mangaCont);
+                }
 
-            Log.v("MyMangaActivity", "Prima creazione");
+                ContentValues[] simpleArray = new ContentValues[mangaContList.size()];
+                getContentResolver().bulkInsert(Uri.parse(Contract.BASE_CONTENT_URI+"/"+Contract.Manga.TABLE_NAME) ,
+                        mangaContList.toArray(simpleArray));
+
+            }catch (Exception e){
+                Log.e("MyMangaDb", "Eccezione: "+e.toString());
+            }
+
+            Log.v("MyMangaActivity", mangaContList.toString());
         }else
             Log.v("MyMangaActivity", "Non è la prima creazione");
 
@@ -75,5 +107,18 @@ public class AllMangaActivity extends AppCompatActivity implements android.suppo
 
     }
 
+    public String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
+
+        Reader reader = null;
+        BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
+        String line;
+        StringBuffer response = new StringBuffer();
+        while((line = rd.readLine()) != null) {
+            response.append(line);
+            response.append('\r');
+        }
+        rd.close();
+        return response.toString();
+    }
 
 }
