@@ -28,10 +28,36 @@ public class AllMangaActivity extends AppCompatActivity implements android.suppo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_manga);
+        /*
+        allMangaListView = (RecyclerView)findViewById(R.id.all_manga_list);
+
+        allMangaListView.setHasFixedSize(true);
+        allMangaListView.setLayoutManager(new GridAutofitLayoutManager(this, 200));
+        */
 
         allMangaListView = (AutoSpanRecyclerView)findViewById(R.id.all_manga_list);
         allMangaListView.setGridLayoutManager(RecyclerView.VERTICAL, R.layout.all_manga_item, 1);
         getSupportLoaderManager().initLoader(1, null, this);
+
+       // String[] projection = {Contract.Manga.COLUMN_IMG, Contract.Manga.COLUMN_TITLE};
+
+/*
+        ContentValues prova = new ContentValues();
+
+        prova.put(Contract.Manga.COLUMN_TITLE, "Prova 1");
+        prova.put(Contract.Manga.COLUMN_MANGA_ID,"Prova ID 1");
+        prova.put(Contract.Manga.COLUMN_IMG,"Prova IMG 1");
+
+        getContentResolver().insert(Uri.parse(Contract.BASE_CONTENT_URI+"/"+Contract.Manga.TABLE_NAME+"/insertProva"), prova);
+*/
+
+        //Cursor c = getContentResolver().query(Uri.parse(Contract.BASE_CONTENT_URI+"/"+Contract.Manga.TABLE_NAME),
+        //       projection,null, null, null);
+
+       // c.moveToNext();
+
+        //Log.v("MyMangaProva", c.getString(c.getColumnIndex(Contract.Manga.COLUMN_TITLE)));
+
 
     }
 
