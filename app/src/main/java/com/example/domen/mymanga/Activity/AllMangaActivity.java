@@ -2,9 +2,11 @@ package com.example.domen.mymanga.Activity;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,20 @@ public class AllMangaActivity extends AppCompatActivity implements android.suppo
 
         allMangaListView = (AutoSpanRecyclerView)findViewById(R.id.all_manga_list);
         allMangaListView.setGridLayoutManager(RecyclerView.VERTICAL, R.layout.all_manga_item, 1);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!pref.getBoolean("NotFirst", false)) {
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("NotFirst", true);
+            editor.commit();
+
+
+
+            Log.v("MyMangaActivity", "Prima creazione");
+        }else
+            Log.v("MyMangaActivity", "Non è la prima creazione");
+
+
         getSupportLoaderManager().initLoader(1, null, this);
 
     }
