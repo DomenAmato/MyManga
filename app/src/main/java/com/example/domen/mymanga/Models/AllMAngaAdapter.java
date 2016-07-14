@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.domen.mymanga.Activity.AllMangaActivity;
 import com.example.domen.mymanga.R;
 
 import org.w3c.dom.Text;
@@ -16,11 +18,11 @@ import org.w3c.dom.Text;
 /**
  * Created by domen on 14/07/2016.
  */
-public class AllMAngaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AllMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Cursor cursor;
 
-    public AllMAngaAdapter(Cursor cursor){
+    public AllMangaAdapter(Cursor cursor){
 
         this.cursor = cursor;
     }
@@ -43,6 +45,14 @@ public class AllMAngaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     void buildViewHolder(MyViewHolder holder, String title, String imageUrl){
 
         holder.mangaTitle.setText(title);
+        try {
+            Glide.with(holder.mangaImage.getContext())
+                    .load(imageUrl).fitCenter()
+                    .error(R.mipmap.ic_launcher)
+                    .into(holder.mangaImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

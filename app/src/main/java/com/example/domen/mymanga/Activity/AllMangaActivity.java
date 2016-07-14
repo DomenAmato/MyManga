@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.example.domen.mymanga.Models.AllMAngaAdapter;
+import com.example.domen.mymanga.Models.AllMangaAdapter;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
 import com.example.domen.mymanga.Utils.AutoSpanRecyclerView;
@@ -98,7 +98,7 @@ public class AllMangaActivity extends AppCompatActivity implements android.suppo
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        AllMAngaAdapter myAdapter = new AllMAngaAdapter(data);
+        AllMangaAdapter myAdapter = new AllMangaAdapter(data);
         allMangaListView.setAdapter(myAdapter);
     }
 
