@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.AllMangaActivity">
+    tools:context=".Activity.AllMangaActivity"
+    android:id="@+id/root_layout">
 
     <com.example.domen.mymanga.Utils.AutoSpanRecyclerView
         android:id="@+id/all_manga_list"

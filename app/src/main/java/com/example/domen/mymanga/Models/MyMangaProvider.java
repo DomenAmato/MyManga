@@ -19,6 +19,7 @@ public class MyMangaProvider extends ContentProvider {
 
     private static final int CODE_All_MANGA = 100;
     private static final int CODE_MANGA = 101;
+    private static final int CODE_SEARCH_MANGA = 102;
     private static final int CODE_MANGA_PROVA = 500;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -30,6 +31,7 @@ public class MyMangaProvider extends ContentProvider {
 
         matcher.addURI(authority, Contract.Manga.TABLE_NAME, CODE_All_MANGA);
         matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/#", CODE_MANGA);
+        matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/*", CODE_SEARCH_MANGA);
         matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/insertProva", CODE_MANGA_PROVA);
 
         return matcher;
@@ -54,8 +56,8 @@ public class MyMangaProvider extends ContentProvider {
                 result = db.getReadableDatabase()
                         .query(Contract.Manga.TABLE_NAME,
                                 projection,
-                                whereClause,
-                                selectionArgs,
+                                null,
+                                null,
                                 null,
                                 null,
                                 order);
@@ -66,6 +68,16 @@ public class MyMangaProvider extends ContentProvider {
                                 projection,
                                 Contract.Manga.TABLE_NAME + "." + Contract.Manga.COLUMN_ID + " = ?",
                                 selectionArgs,
+                                null,
+                                null,
+                                order);
+                break;
+            case CODE_SEARCH_MANGA:
+                result = db.getReadableDatabase()
+                        .query(Contract.Manga.TABLE_NAME,
+                                projection,
+                                Contract.Manga.TABLE_NAME + "." + Contract.Manga.COLUMN_TITLE + " LIKE "+selectionArgs[0],
+                                null,
                                 null,
                                 null,
                                 order);

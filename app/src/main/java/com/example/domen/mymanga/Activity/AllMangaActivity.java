@@ -1,6 +1,7 @@
 package com.example.domen.mymanga.Activity;
 
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -100,8 +101,11 @@ public class AllMangaActivity extends AppCompatActivity implements android.suppo
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.search).getActionView();
+        ComponentName cn = new ComponentName(this, SearchResultActivity.class);
         searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+                        searchManager.getSearchableInfo(cn));
+        //searchView.setSearchableInfo(
+        //        searchManager.getSearchableInfo(getComponentName()));
 
         return true;
     }
@@ -112,6 +116,7 @@ public class AllMangaActivity extends AppCompatActivity implements android.suppo
                 AllMangaActivity.this,
                 Uri.parse(Contract.BASE_CONTENT_URI+"/"+Contract.Manga.TABLE_NAME),
                 new String[]{
+                        Contract.Manga.COLUMN_MANGA_ID,
                         Contract.Manga.COLUMN_TITLE,
                         Contract.Manga.COLUMN_IMG
                 },
