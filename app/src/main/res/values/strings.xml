@@ -7,5 +7,7 @@
         <string name="permission_label_write">MyManga Permission Write</string>
         <string name="permission_description_write">Allow Provider to write in a Database Store</string>
         <string name="permission_description_read">Allow Provider to read from a Database Store</string>
+        <string name="search_title">Search Manga</string>
+        <string name="search_hint">Manga Title</string>
     </resources>
 
