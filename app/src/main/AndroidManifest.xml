@@ -50,6 +50,13 @@
                 android:value="com.example.domen.mymanga.Activity.AllMangaActivity" />
         </activity>
 
+        <activity android:name=".Activity.MangaDetailActivity" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.domen.mymanga.Activity.AllMangaActivity" />
+        </activity>
+
         <provider
             android:name="com.example.domen.mymanga.Models.MyMangaProvider"
             android:authorities="it.mycompany.domen.mymanga.data"

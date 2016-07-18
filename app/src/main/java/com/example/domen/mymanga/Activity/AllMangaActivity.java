@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -127,6 +128,16 @@ public class AllMangaActivity extends AppCompatActivity implements android.suppo
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         AllMangaAdapter myAdapter = new AllMangaAdapter(data);
+
+        myAdapter.setOnItemClickListener(new AllMangaAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String id) {
+                Intent detailIntent = new Intent(getApplicationContext(), MangaDetailActivity.class);
+                detailIntent.putExtra("manga_id", id);
+                startActivity(detailIntent);
+            }
+        });
+
         allMangaListView.setAdapter(myAdapter);
     }
 

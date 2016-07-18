@@ -9,5 +9,7 @@
         <string name="permission_description_read">Allow Provider to read from a Database Store</string>
         <string name="search_title">Search Manga</string>
         <string name="search_hint">Manga Title</string>
+        <string name="on_button">Read</string>
+        <string name="off_button">Not Read</string>
     </resources>
 
