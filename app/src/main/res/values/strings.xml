@@ -11,5 +11,6 @@
         <string name="search_hint">Manga Title</string>
         <string name="on_button">Read</string>
         <string name="off_button">Not Read</string>
+        <string name="no_detail">Not Selected Manga</string>
     </resources>
 

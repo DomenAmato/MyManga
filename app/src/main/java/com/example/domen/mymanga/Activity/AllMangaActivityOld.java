@@ -1,20 +1,28 @@
 package com.example.domen.mymanga.Activity;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.widget.FrameLayout;
+import android.view.Menu;
+import android.view.MenuInflater;
 
-import com.example.domen.mymanga.Fragment.MangaDetailFragment;
-import com.example.domen.mymanga.Fragment.MangaListFragment;
+import com.example.domen.mymanga.Models.AllMangaAdapter;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
+import com.example.domen.mymanga.Utils.AutoSpanRecyclerView;
 import com.example.domen.mymanga.Utils.Manga;
 
 import org.json.JSONArray;
@@ -28,58 +36,17 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-/**
- * Created by domen on 20/07/2016.
- */
-public class AllMangaActivity extends AppCompatActivity implements MangaListFragment.Communication{
+public class AllMangaActivityOld extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>{
 
-    private boolean isTablet;
-
-    public boolean isTablet() {
-        return isTablet;
-    }
-
-    public void setTablet(boolean tablet) {
-        isTablet = tablet;
-    }
-
-
-    private MangaDetailFragment mangaDetailFragment;
-    private FragmentManager fm;
+    private AutoSpanRecyclerView allMangaListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_manga);
+        setContentView(R.layout.activity_all_manga_old);
 
-        FrameLayout tabletView;
-        fm = getSupportFragmentManager();
-
-        fillDb();
-
-        tabletView = (FrameLayout) findViewById(R.id.list_view);
-        if(tabletView != null) isTablet = true;
-
-        if(savedInstanceState == null && !isTablet){
-
-            Log.v("MyMangaActivity", "Sono in uno Smartphone o Tablet Portrait");
-            MangaListFragment lf = new MangaListFragment();
-            fm.beginTransaction().replace(R.id.container,lf).addToBackStack("MyManga").commit();
-
-        }else if(isTablet){
-
-            mangaDetailFragment = MangaDetailFragment.newInstance("");
-            MangaListFragment lf = new MangaListFragment();
-
-            fm.beginTransaction().replace(R.id.list_view,lf).commit();
-            fm.beginTransaction().replace(R.id.detail_view,mangaDetailFragment).commit();
-        }
-
-
-
-    }
-
-    private void fillDb(){
+        allMangaListView = (AutoSpanRecyclerView)findViewById(R.id.all_manga_list);
+        allMangaListView.setGridLayoutManager(RecyclerView.VERTICAL, R.layout.all_manga_item, 1);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         if(!pref.getBoolean("NotFirst", false)) {
@@ -118,6 +85,64 @@ public class AllMangaActivity extends AppCompatActivity implements MangaListFrag
         }else
             Log.v("MyMangaActivity", "Non è la prima creazione");
 
+
+        getSupportLoaderManager().initLoader(1, null, this);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        ComponentName cn = new ComponentName(this, SearchResultActivity.class);
+        searchView.setSearchableInfo(
+                        searchManager.getSearchableInfo(cn));
+        //searchView.setSearchableInfo(
+        //        searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(
+                AllMangaActivityOld.this,
+                Uri.parse(Contract.BASE_CONTENT_URI+"/"+Contract.Manga.TABLE_NAME),
+                new String[]{
+                        Contract.Manga.COLUMN_MANGA_ID,
+                        Contract.Manga.COLUMN_TITLE,
+                        Contract.Manga.COLUMN_IMG
+                },
+                null, null, null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        AllMangaAdapter myAdapter = new AllMangaAdapter(data);
+
+        myAdapter.setOnItemClickListener(new AllMangaAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String id) {
+                Intent detailIntent = new Intent(getApplicationContext(), MangaDetailActivity.class);
+                detailIntent.putExtra("manga_id", id);
+                startActivity(detailIntent);
+            }
+        });
+
+        allMangaListView.setAdapter(myAdapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
     public String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
@@ -134,25 +159,4 @@ public class AllMangaActivity extends AppCompatActivity implements MangaListFrag
         return response.toString();
     }
 
-    @Override
-    public void onItemChoosed(String id) {
-
-        //if(mangaDetailFragment==null)
-        mangaDetailFragment = MangaDetailFragment.newInstance(id);
-
-        if(isTablet) {
-            fm.beginTransaction().replace(R.id.detail_view, mangaDetailFragment).commit();
-        }
-        else{
-            fm.beginTransaction().replace(R.id.container,mangaDetailFragment).addToBackStack("MyManga").commit();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        if(fm.getBackStackEntryCount()==0)
-            finish();
-    }
 }
