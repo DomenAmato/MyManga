@@ -37,7 +37,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Titolo:"
-                    android:textSize="25dp" />
+                    android:textSize="25dp"
+                    android:id="@+id/manga_detail_title"/>
                 <TextView
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"

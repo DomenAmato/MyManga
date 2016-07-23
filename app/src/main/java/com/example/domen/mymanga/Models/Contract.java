@@ -21,4 +21,7 @@ public class Contract {
         public static final String COLUMN_IMG = TABLE_NAME + "_img";
 
     }
+
+    public static final int DETAIL_LOADER = 2;
+    public static final int LIST_LOADER = 1;
 }

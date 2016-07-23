@@ -45,6 +45,10 @@
 
         </activity>
 
+        <service
+            android:name=".Service.MangaDetailService"
+            android:exported="false" />
+
         <provider
             android:name="com.example.domen.mymanga.Models.MyMangaProvider"
             android:authorities="it.mycompany.domen.mymanga.data"

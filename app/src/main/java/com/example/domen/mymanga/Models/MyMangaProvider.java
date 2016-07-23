@@ -30,7 +30,7 @@ public class MyMangaProvider extends ContentProvider {
         final String authority = Contract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, Contract.Manga.TABLE_NAME, CODE_All_MANGA);
-        matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/#", CODE_MANGA);
+        matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/id/*", CODE_MANGA);
         matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/*", CODE_SEARCH_MANGA);
         matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/insertProva", CODE_MANGA_PROVA);
 
@@ -66,7 +66,7 @@ public class MyMangaProvider extends ContentProvider {
                 result = db.getReadableDatabase()
                         .query(Contract.Manga.TABLE_NAME,
                                 projection,
-                                Contract.Manga.TABLE_NAME + "." + Contract.Manga.COLUMN_ID + " = ?",
+                                Contract.Manga.TABLE_NAME + "." + Contract.Manga.COLUMN_MANGA_ID + " = '"+ uri.getLastPathSegment()+"'",
                                 selectionArgs,
                                 null,
                                 null,

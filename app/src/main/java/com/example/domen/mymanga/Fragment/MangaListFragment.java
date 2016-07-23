@@ -63,7 +63,7 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
         mangaList.setGridLayoutManager(RecyclerView.VERTICAL, R.layout.all_manga_item, 1);
         mangaList.setHasFixedSize(true);
 
-        getActivity().getSupportLoaderManager().initLoader(1, null, this);
+        getActivity().getSupportLoaderManager().initLoader(Contract.LIST_LOADER, null, this);
 
         return view;
     }
