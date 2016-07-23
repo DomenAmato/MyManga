@@ -1,7 +1,9 @@
 package com.example.domen.mymanga.Fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.domen.mymanga.BroadcastReceiver.DownloadResultReceiver;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
 import com.example.domen.mymanga.Service.MangaDetailService;
@@ -69,9 +72,19 @@ public class MangaDetailFragment extends Fragment implements LoaderManager.Loade
             }else
                 getActivity().getSupportLoaderManager().initLoader(Contract.DETAIL_LOADER, mangaBundle, this);
 
+            DownloadResultReceiver myReceiver = new DownloadResultReceiver();
+            IntentFilter myFilter = new IntentFilter();
+            myFilter.addAction("com.example.domen.mymanga.DOWNLOAD_COMPLETE");
+
+            getContext().registerReceiver(myReceiver, myFilter);
+
             Intent intent = new Intent(Intent.ACTION_SYNC, null, getContext(), MangaDetailService.class);
             intent.putExtra(Contract.Manga.COLUMN_MANGA_ID, id);
+
             getContext().startService(intent);
+
+
+
         }
 
         return root;

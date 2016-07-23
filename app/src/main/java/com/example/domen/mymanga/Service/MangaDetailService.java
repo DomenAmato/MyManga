@@ -40,6 +40,10 @@ public class MangaDetailService extends IntentService {
             if (networkInfo != null && networkInfo.isConnected()) {
                 result = downloadUrl(stringUrl);
                 //Log.v("MyMangaService", result);
+                Intent resultBroadcast = new Intent();
+                resultBroadcast.setAction(getApplicationContext().getString(R.string.broadcast_action));
+                resultBroadcast.putExtra("Result", result);
+                sendBroadcast(resultBroadcast);
             }
         }catch (Exception e){
             Log.e("MyMangaService", e.getMessage());

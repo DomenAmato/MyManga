@@ -13,5 +13,6 @@
         <string name="on_button">Read</string>
         <string name="off_button">Not Read</string>
         <string name="no_detail">Not Selected Manga</string>
+        <string name="broadcast_action">com.example.domen.mymanga.DOWNLOAD_COMPLETE</string>
     </resources>
 
