@@ -1,6 +1,8 @@
 package com.example.domen.mymanga.Activity;
 
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,10 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.FrameLayout;
 
+import com.example.domen.mymanga.BroadcastReceiver.DownloadResultReceiver;
 import com.example.domen.mymanga.Fragment.MangaDetailFragment;
 import com.example.domen.mymanga.Fragment.MangaListFragment;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
+import com.example.domen.mymanga.Service.MangaDetailService;
 import com.example.domen.mymanga.Utils.Manga;
 
 import org.json.JSONArray;
@@ -57,6 +61,12 @@ public class AllMangaActivity extends AppCompatActivity implements MangaListFrag
 
         fillDb();
 
+        DownloadResultReceiver myReceiver = new DownloadResultReceiver();
+        IntentFilter myFilter = new IntentFilter();
+        myFilter.addAction("com.example.domen.mymanga.DOWNLOAD_COMPLETE");
+
+        registerReceiver(myReceiver, myFilter);
+
         tabletView = (FrameLayout) findViewById(R.id.list_view);
         if(tabletView != null) isTablet = true;
 
@@ -67,8 +77,9 @@ public class AllMangaActivity extends AppCompatActivity implements MangaListFrag
             fm.beginTransaction().replace(R.id.container,lf).addToBackStack("MyManga").commit();
 
         }else if(isTablet){
-
-            mangaDetailFragment = MangaDetailFragment.newInstance("");
+            Bundle mangaBundle = new Bundle();
+            mangaBundle.putString(Contract.Manga.COLUMN_MANGA_ID, "");
+            mangaDetailFragment = MangaDetailFragment.newInstance(mangaBundle);
             MangaListFragment lf = new MangaListFragment();
 
             fm.beginTransaction().replace(R.id.list_view,lf).commit();
@@ -136,16 +147,29 @@ public class AllMangaActivity extends AppCompatActivity implements MangaListFrag
 
     @Override
     public void onItemChoosed(String id) {
-
+        /*
         //if(mangaDetailFragment==null)
-        mangaDetailFragment = MangaDetailFragment.newInstance(id);
+        Bundle mangaBundle = new Bundle();
+        mangaBundle.putString(Contract.Manga.COLUMN_MANGA_ID, id);
+
+        mangaDetailFragment = MangaDetailFragment.newInstance(mangaBundle);
 
         if(isTablet) {
             fm.beginTransaction().replace(R.id.detail_view, mangaDetailFragment).commit();
         }
         else{
-            fm.beginTransaction().replace(R.id.container,mangaDetailFragment).addToBackStack("MyManga").commit();
-        }
+            fm.beginTransaction().replace(R.id.container,mangaDetailFragment).commit();
+*/
+        Bundle mangaBundle = new Bundle();
+        mangaBundle.putString(Contract.Manga.COLUMN_MANGA_ID,id);
+
+
+
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, MangaDetailService.class);
+        intent.putExtra(Contract.Manga.COLUMN_MANGA_ID, id);
+
+        startService(intent);
+
     }
 
     @Override

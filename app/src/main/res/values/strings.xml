@@ -3,6 +3,7 @@
         <string name="app_name">My Manga</string>
         <string name="mangaeden_api">http://www.mangaeden.com/api</string>
         <string name="mangaeden_api_detail"> http://www.mangaeden.com/api/manga/</string>
+        <string name="im_base_url">https://cdn.mangaeden.com/mangasimg/200x/</string>
         <string name="list_endpoint">/list/1</string>
         <string name="permission_label_read">MyManga Permission Read</string>
         <string name="permission_label_write">MyManga Permission Write</string>

@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,8 +44,12 @@ public class MangaDetailService extends IntentService {
                 //Log.v("MyMangaService", result);
                 Intent resultBroadcast = new Intent();
                 resultBroadcast.setAction(getApplicationContext().getString(R.string.broadcast_action));
-                resultBroadcast.putExtra("Result", result);
+                Bundle extraBundle = new Bundle();
+                extraBundle.putString("Result", result);
+                resultBroadcast.putExtra("myExtraBundle", extraBundle);
+                resultBroadcast.putExtra(Contract.Manga.COLUMN_MANGA_ID, id);
                 sendBroadcast(resultBroadcast);
+
             }
         }catch (Exception e){
             Log.e("MyMangaService", e.getMessage());
@@ -70,7 +76,7 @@ public class MangaDetailService extends IntentService {
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
-            String contentAsString = readIt(is, len);
+            String contentAsString = readIt(is);
             return contentAsString;
 
             // Makes sure that the InputStream is closed after the app is
@@ -82,11 +88,17 @@ public class MangaDetailService extends IntentService {
         }
     }
 
-    public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+    public String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
+
         Reader reader = null;
-        reader = new InputStreamReader(stream, "UTF-8");
-        char[] buffer = new char[len];
-        reader.read(buffer);
-        return new String(buffer);
+        BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
+        String line;
+        StringBuffer response = new StringBuffer();
+        while((line = rd.readLine()) != null) {
+            response.append(line);
+            response.append('\r');
+        }
+        rd.close();
+        return response.toString();
     }
 }

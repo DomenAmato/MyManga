@@ -2,7 +2,8 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/detail_container">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,21 +39,23 @@
                     android:layout_height="wrap_content"
                     android:text="Titolo:"
                     android:textSize="25dp"
-                    android:id="@+id/manga_detail_title"/>
+                    android:id="@+id/manga_detail_title2"/>
                 <TextView
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Autore:"
-                    android:textSize="25dp" />
+                    android:textSize="25dp"
+                    android:id="@+id/manga_detail_author"/>
                 <TextView
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="#Capitoli:"
-                    android:textSize="25dp" />
+                    android:textSize="25dp"
+                    android:id="@+id/manga_detail_chapter"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -69,7 +72,7 @@
         android:id="@+id/not_selected_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@android:color/background_light">
 
         <TextView

@@ -34,10 +34,10 @@ public class MangaDetailFragment extends Fragment implements LoaderManager.Loade
 
     View root;
 
-    public static MangaDetailFragment newInstance(String id){
+    public static MangaDetailFragment newInstance(Bundle mangaBundle){
 
         Bundle args = new Bundle();
-        args.putString(Contract.Manga.COLUMN_MANGA_ID, id);
+        args.putBundle("DetailBundle", mangaBundle);
 
         MangaDetailFragment mangaDetailFragment = new MangaDetailFragment();
         mangaDetailFragment.setArguments(args);
@@ -55,36 +55,40 @@ public class MangaDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final String id = getArguments().getString(Contract.Manga.COLUMN_MANGA_ID);
+        final Bundle detailBundle = getArguments().getBundle("DetailBundle");
+        //final String id = getArguments().getString(Contract.Manga.COLUMN_MANGA_ID);
         root = inflater.inflate(R.layout.fragment_detail, container, false);
+        String id = detailBundle.getString(Contract.Manga.COLUMN_MANGA_ID);
+        String author = detailBundle.getString("author");
+        String chapther = detailBundle.getString("chapter");
+        String title = detailBundle.getString(Contract.Manga.COLUMN_TITLE);
+        String img = detailBundle.getString(Contract.Manga.COLUMN_IMG);
 
-        if(id!=""){
+        if (id != "") {
 
-            root.findViewById(R.id.not_selected_layer).setVisibility(View.GONE);
+            TextView titleView = (TextView) root.findViewById(R.id.manga_detail_title2);
+            titleView.setText(title);
 
-            Bundle mangaBundle = new Bundle();
-            mangaBundle.putString(Contract.Manga.COLUMN_MANGA_ID,id);
-
-
-            if (getActivity().getSupportLoaderManager().getLoader(Contract.DETAIL_LOADER) != null){
-                getActivity().getSupportLoaderManager().destroyLoader(Contract.DETAIL_LOADER);
-                getActivity().getSupportLoaderManager().initLoader(Contract.DETAIL_LOADER, mangaBundle, this);
-            }else
-                getActivity().getSupportLoaderManager().initLoader(Contract.DETAIL_LOADER, mangaBundle, this);
-
-            DownloadResultReceiver myReceiver = new DownloadResultReceiver();
-            IntentFilter myFilter = new IntentFilter();
-            myFilter.addAction("com.example.domen.mymanga.DOWNLOAD_COMPLETE");
-
-            getContext().registerReceiver(myReceiver, myFilter);
-
-            Intent intent = new Intent(Intent.ACTION_SYNC, null, getContext(), MangaDetailService.class);
-            intent.putExtra(Contract.Manga.COLUMN_MANGA_ID, id);
-
-            getContext().startService(intent);
+            ImageView mangaImage = (ImageView) root.findViewById(R.id.manga_cover_detail);
 
 
+            try {
+                Glide.with(mangaImage.getContext())
+                        .load(img).fitCenter()
+                        .error(R.mipmap.ic_launcher)
+                        .into(mangaImage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+
+            TextView authorView = (TextView) root.findViewById(R.id.manga_detail_author);
+            authorView.setText(author);
+            TextView chapterView = (TextView) root.findViewById(R.id.manga_detail_chapter);
+            chapterView.setText("Numero Capitoli: " + chapther);
+
+        }else{
+            root.findViewById(R.id.not_selected_layer).setVisibility(View.VISIBLE);
         }
 
         return root;
@@ -108,7 +112,7 @@ public class MangaDetailFragment extends Fragment implements LoaderManager.Loade
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         data.moveToPosition(0);
-        TextView title = (TextView)root.findViewById(R.id.manga_detail_title);
+        TextView title = (TextView) root.findViewById(R.id.manga_detail_title2);
         title.setText(data.getString(data.getColumnIndex(Contract.Manga.COLUMN_TITLE)));
 
         ImageView mangaImage = (ImageView) root.findViewById(R.id.manga_cover_detail);
@@ -127,4 +131,6 @@ public class MangaDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
     }
+
+
 }
