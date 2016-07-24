@@ -44,13 +44,20 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_manga_list, container, false);
+
+        //Riferimento all'activity attiva
         MyActivity = (AllMangaActivity) getActivity();
 
-
+        /*
+        *   Setto la RecyclerView tramite una classe che la estende per il calcolo dell'AutoSpan
+        */
         mangaList = (AutoSpanRecyclerView) view.findViewById(R.id.all_manga_list);
         mangaList.setGridLayoutManager(RecyclerView.VERTICAL, R.layout.all_manga_item, 1);
         mangaList.setHasFixedSize(true);
 
+        /*
+        *   Inizializzo il Loader per recuperare i dati dei manga dal DB
+        */
         getActivity().getSupportLoaderManager().initLoader(Contract.LIST_LOADER, null, this);
 
         return view;
@@ -60,6 +67,10 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        /*
+        *   Recupero un Cursor con la lista dei manga
+        */
         return new CursorLoader(
                 getActivity(),
                 Uri.parse(Contract.BASE_CONTENT_URI+"/"+Contract.Manga.TABLE_NAME),
@@ -74,24 +85,25 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+
         AllMangaAdapter myAdapter = new AllMangaAdapter(data);
 
+        /*
+        *   Implemento la callback per il click sugli Item della lista
+        */
         myAdapter.setOnItemClickListener(new AllMangaAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String id) {
                 if(listener!=null)
                     listener.onItemChoosed(id);
 
-                //isTablet = MyActivity.isTablet();
-                //if (!isTablet) {
-                //    FragmentManager fm = getFragmentManager();
-                //    MangaDetailFragment df = new MangaDetailFragment();
-                //    fm.beginTransaction().replace(R.id.container, df).addToBackStack("MyManga").commit();
-
-                //}
             }
         });
 
+        /*
+        *   Setto l'adapter per riempire la RecyclerView
+        */
         mangaList.setAdapter(myAdapter);
 
     }
@@ -101,6 +113,7 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
 
     }
 
+    //Interfaccia per la callback di comunicazione tra Activity e Fragment
     public interface Communication{
         void onItemChoosed(String id);
     }

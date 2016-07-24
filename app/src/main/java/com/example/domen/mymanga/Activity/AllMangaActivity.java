@@ -186,7 +186,7 @@ public class AllMangaActivity extends AppCompatActivity implements MangaListFrag
     }
 
     /*
-    *   Implementazione dell'interfaccia di comunicazione tra Activity e Service
+    *   Implementazione dell'interfaccia di comunicazione tra Activity e Fragment
     */
     @Override
     public void onItemChoosed(String id) {
