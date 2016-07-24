@@ -3,6 +3,10 @@ package com.example.domen.mymanga.Utils;
 /**
  * Created by domen on 14/07/2016.
  */
+
+/*
+*   Classe di supporto per strutturare i dati scaricati da internet
+*/
 public class Manga {
 
     private String id;
