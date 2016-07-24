@@ -16,12 +16,10 @@ public class Contract {
 
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_MANGA_ID = TABLE_NAME + "_id";
-        //public static final String COLUMN_ID = "_id";
         public static final String COLUMN_TITLE = TABLE_NAME + "_title";
         public static final String COLUMN_IMG = TABLE_NAME + "_img";
 
     }
 
-    public static final int DETAIL_LOADER = 2;
     public static final int LIST_LOADER = 1;
 }

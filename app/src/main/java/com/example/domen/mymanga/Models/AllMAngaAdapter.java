@@ -27,12 +27,17 @@ public class AllMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        //Recupero il layout in cui inserire la lista
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.all_manga_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+        /*
+        *   Recupero le informazioni del singolo elemento dal Cursor
+        */
         cursor.moveToPosition(position);
         final String title = cursor.getString(cursor.getColumnIndex(Contract.Manga.COLUMN_TITLE));
         final String image = cursor.getString(cursor.getColumnIndex(Contract.Manga.COLUMN_IMG));
@@ -44,6 +49,9 @@ public class AllMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     void buildViewHolder(MyViewHolder holder, final String id, String title, String imageUrl){
 
+        /*
+        *   Setto gli elementi della view del singolo Item
+        */
         holder.mangaTitle.setText(title);
         try {
             Glide.with(holder.mangaImage.getContext())
@@ -54,6 +62,9 @@ public class AllMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             e.printStackTrace();
         }
 
+        /*
+        *   Richiamo l'interfaccia di callback per il click
+        */
         holder.rootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +83,10 @@ public class AllMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else return -1;
     }
 
+
+    /*
+    *   Implemento il ViewHolder da utilizzare per recuperare le view degli Item
+    */
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView mangaImage;
@@ -84,7 +99,6 @@ public class AllMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mangaImage = (ImageView) itemView.findViewById(R.id.manga_cover);
             mangaTitle = (TextView) itemView.findViewById(R.id.manga_title);
             rootLayout = (LinearLayout) itemView.findViewById(R.id.manga_item);
-            //Log.v("MyMangaAdapeter", rootLayout.toString());
         }
     }
 
@@ -107,6 +121,7 @@ public class AllMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.listener=listener;
     }
 
+    //Interfaccia per la callback del click
     public interface OnItemClickListener{
         void onItemClick(String id);
     }
