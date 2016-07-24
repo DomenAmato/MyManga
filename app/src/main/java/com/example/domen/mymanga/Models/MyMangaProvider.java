@@ -20,7 +20,6 @@ public class MyMangaProvider extends ContentProvider {
     private static final int CODE_All_MANGA = 100;
     private static final int CODE_MANGA = 101;
     private static final int CODE_SEARCH_MANGA = 102;
-    private static final int CODE_MANGA_PROVA = 500;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -32,7 +31,6 @@ public class MyMangaProvider extends ContentProvider {
         matcher.addURI(authority, Contract.Manga.TABLE_NAME, CODE_All_MANGA);
         matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/id/*", CODE_MANGA);
         matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/*", CODE_SEARCH_MANGA);
-        matcher.addURI(authority, Contract.Manga.TABLE_NAME + "/insertProva", CODE_MANGA_PROVA);
 
         return matcher;
     }
@@ -52,7 +50,6 @@ public class MyMangaProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case CODE_All_MANGA:
-                //String[] columns = {Contract.Manga.COLUMN_ID, Contract.Manga.COLUMN_TITLE, Contract.Manga.COLUMN_IMG};
                 result = db.getReadableDatabase()
                         .query(Contract.Manga.TABLE_NAME,
                                 projection,
@@ -98,16 +95,6 @@ public class MyMangaProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-
-        Uri result = null;
-
-        switch (sUriMatcher.match(uri))
-        {
-            case CODE_MANGA_PROVA:
-                db.getWritableDatabase().insert(Contract.Manga.TABLE_NAME, null , contentValues);
-                break;
-        }
-
         return uri;
     }
 
@@ -132,9 +119,6 @@ public class MyMangaProvider extends ContentProvider {
             case CODE_All_MANGA:
                 returnCount = QueryHelper.setBulkInsert(getContext(), Contract.Manga.TABLE_NAME, myDb, values);
                 break;
-           // default:
-           //     throw new UnsupportedOperationException("Unknown uri: " + uri);
-
         }
 
         Log.i("MyMangaDB", "bulk insert: " + uri.toString() + ", " + returnCount);
