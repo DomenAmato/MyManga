@@ -1,32 +1,20 @@
 package com.example.domen.mymanga.Fragment;
 
-import android.app.Activity;
-import android.app.SearchManager;
-import android.content.ComponentName;
+
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
 import com.example.domen.mymanga.Activity.AllMangaActivity;
-import com.example.domen.mymanga.Activity.MangaDetailActivity;
-import com.example.domen.mymanga.Activity.SearchResultActivity;
 import com.example.domen.mymanga.Models.AllMangaAdapter;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
