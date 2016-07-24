@@ -66,7 +66,7 @@ public class MangaDetailFragment extends Fragment implements LoaderManager.Loade
 
         if (id != "") {
 
-            TextView titleView = (TextView) root.findViewById(R.id.manga_detail_title2);
+            TextView titleView = (TextView) root.findViewById(R.id.manga_detail_title);
             titleView.setText(title);
 
             ImageView mangaImage = (ImageView) root.findViewById(R.id.manga_cover_detail);
@@ -112,7 +112,7 @@ public class MangaDetailFragment extends Fragment implements LoaderManager.Loade
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         data.moveToPosition(0);
-        TextView title = (TextView) root.findViewById(R.id.manga_detail_title2);
+        TextView title = (TextView) root.findViewById(R.id.manga_detail_title);
         title.setText(data.getString(data.getColumnIndex(Contract.Manga.COLUMN_TITLE)));
 
         ImageView mangaImage = (ImageView) root.findViewById(R.id.manga_cover_detail);
