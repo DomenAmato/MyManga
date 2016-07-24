@@ -28,7 +28,6 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
     private Communication listener;
 
     private AutoSpanRecyclerView mangaList;
-    private boolean isTablet = false;
     private AllMangaActivity MyActivity;
 
 
