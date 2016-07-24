@@ -19,6 +19,7 @@ import com.example.domen.mymanga.Models.AllMangaAdapter;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
 import com.example.domen.mymanga.Utils.AutoSpanRecyclerView;
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 
 /**
  * Created by domen on 20/07/2016.
@@ -28,7 +29,7 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
     private Communication listener;
 
     private AutoSpanRecyclerView mangaList;
-    private AllMangaActivity MyActivity;
+    private AllMangaActivity myActivity;
 
 
     @Override
@@ -45,7 +46,7 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
         View view = inflater.inflate(R.layout.fragment_manga_list, container, false);
 
         //Riferimento all'activity attiva
-        MyActivity = (AllMangaActivity) getActivity();
+        myActivity = (AllMangaActivity) getActivity();
 
         /*
         *   Setto la RecyclerView tramite una classe che la estende per il calcolo dell'AutoSpan
@@ -53,6 +54,8 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
         mangaList = (AutoSpanRecyclerView) view.findViewById(R.id.all_manga_list);
         mangaList.setGridLayoutManager(RecyclerView.VERTICAL, R.layout.all_manga_item, 1);
         mangaList.setHasFixedSize(true);
+        FastScroller fastScroller = (FastScroller) view.findViewById(R.id.fastscroll);
+        fastScroller.setRecyclerView((RecyclerView) mangaList);
 
         /*
         *   Inizializzo il Loader per recuperare i dati dei manga dal DB
@@ -78,7 +81,7 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
                         Contract.Manga.COLUMN_TITLE,
                         Contract.Manga.COLUMN_IMG
                 },
-                null, null, null
+                null, null, Contract.Manga.COLUMN_TITLE+" ASC"
         );
     }
 
