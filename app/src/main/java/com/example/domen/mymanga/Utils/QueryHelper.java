@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class QueryHelper {
 
+    /*
+    *   Metodo per l'inserimento di righe multiple in blocco
+    */
     public static final int setBulkInsert(Context context, String table, SQLiteDatabase myDb, ContentValues[] values){
 
         int returnCount = 0;

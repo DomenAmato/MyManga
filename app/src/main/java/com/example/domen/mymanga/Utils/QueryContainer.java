@@ -19,20 +19,4 @@ public class QueryContainer {
             Contract.Manga.COLUMN_IMG + " varchar(200), " +
             Contract.Manga.COLUMN_TITLE + " varchar(50));";
 
-
-    public static String createFirstInsert(ArrayList<Manga> manga){
-
-        String query = "INSERT INTO "+Contract.Manga.TABLE_NAME+ "('"+
-                Contract.Manga.COLUMN_MANGA_ID+"','"+Contract.Manga.COLUMN_IMG+"','"+Contract.Manga.COLUMN_TITLE+"') "
-                + "VALUES('";
-
-        for (int i = 0; i < manga.size(); i++){
-            if(i==0)
-                query= query+manga.get(i).getId()+"','"+manga.get(i).getImgUrl()+"','"+manga.get(i).getTitle()+"')";
-            else
-                query= query+",('"+manga.get(i).getId()+"','"+manga.get(i).getImgUrl()+"','"+manga.get(i).getTitle()+"')";
-        }
-        Log.v("MyMangaInsert", query);
-        return query;
-    }
 }
