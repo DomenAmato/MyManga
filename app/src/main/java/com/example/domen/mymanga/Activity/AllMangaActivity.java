@@ -171,7 +171,7 @@ public class AllMangaActivity extends AppCompatActivity implements MangaListFrag
     *   Metodo ausiliare per trasformare un buffer in stringa
     */
 
-    public String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
+    public static String readIt(InputStream stream) throws IOException, UnsupportedEncodingException {
 
         Reader reader = null;
         BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
