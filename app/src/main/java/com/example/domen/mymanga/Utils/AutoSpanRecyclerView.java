@@ -26,6 +26,9 @@ public class AutoSpanRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
+    /*
+    *   Setto un LayoutManager a griglia con uno span automatico
+    */
     public void setGridLayoutManager(int orientation, int itemLayoutId, int minSpans ) {
         GridLayoutManager layoutManager = new GridLayoutManager( getContext(), 2, orientation, false );
         m_gridItemLayoutId = itemLayoutId;
@@ -34,6 +37,11 @@ public class AutoSpanRecyclerView extends RecyclerView {
         setLayoutManager( layoutManager );
     }
 
+    /*
+    *   Effettuo i calcoli per il numero di colonne in una riga
+    *
+    *   numeroColonne = viewWidth/itemWidth
+    */
     @Override
     protected void onLayout( boolean changed, int left, int top, int right, int bottom ) {
         super.onLayout( changed, left, top, right, bottom );
