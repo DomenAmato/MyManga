@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import com.example.domen.mymanga.Activity.AllMangaActivity;
-import com.example.domen.mymanga.Fragment.MangaDetailFragment;
+import com.example.domen.mymanga.Fragments.MangaDetailFragment;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
 import org.json.JSONObject;

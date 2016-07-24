@@ -1,4 +1,4 @@
-package com.example.domen.mymanga.Fragment;
+package com.example.domen.mymanga.Fragments;
 
 
 import android.content.Context;
@@ -28,7 +28,6 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
     private Communication listener;
 
     private AutoSpanRecyclerView mangaList;
-    private boolean isTablet = false;
     private AllMangaActivity MyActivity;
 
 
@@ -97,7 +96,6 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
             public void onItemClick(String id) {
                 if(listener!=null)
                     listener.onItemChoosed(id);
-
             }
         });
 

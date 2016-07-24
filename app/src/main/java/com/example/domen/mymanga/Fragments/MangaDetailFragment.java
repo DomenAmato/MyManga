@@ -1,4 +1,4 @@
-package com.example.domen.mymanga.Fragment;
+package com.example.domen.mymanga.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;

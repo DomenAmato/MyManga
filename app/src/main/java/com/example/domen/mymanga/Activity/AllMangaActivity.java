@@ -1,6 +1,5 @@
 package com.example.domen.mymanga.Activity;
 
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,8 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.FrameLayout;
 import com.example.domen.mymanga.BroadcastReceiver.DownloadResultReceiver;
-import com.example.domen.mymanga.Fragment.MangaDetailFragment;
-import com.example.domen.mymanga.Fragment.MangaListFragment;
+import com.example.domen.mymanga.Fragments.MangaDetailFragment;
+import com.example.domen.mymanga.Fragments.MangaListFragment;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
 import com.example.domen.mymanga.Service.MangaDetailService;
