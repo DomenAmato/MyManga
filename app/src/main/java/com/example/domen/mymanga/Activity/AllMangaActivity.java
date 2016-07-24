@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 public class AllMangaActivity extends AppCompatActivity implements MangaListFragment.Communication{
     /*
-    *   Attributo che mi indica il dispostivo utilizzato
+    *  Attributo che mi indica il dispostivo utilizzato
     *  true -> Tablet
     * false -> Smartphone
     */
