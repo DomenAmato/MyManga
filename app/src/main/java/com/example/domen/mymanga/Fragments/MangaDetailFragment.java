@@ -54,6 +54,7 @@ public class MangaDetailFragment extends Fragment {
         String chapther = detailBundle.getString("chapter");
         String title = detailBundle.getString(Contract.Manga.COLUMN_TITLE);
         String img = detailBundle.getString(Contract.Manga.COLUMN_IMG);
+        String genres = detailBundle.getString("genres");
 
         /*
         *   Se è stato richiesto il dettaglio di un manga
@@ -71,7 +72,7 @@ public class MangaDetailFragment extends Fragment {
             try {
                 Glide.with(mangaImage.getContext())
                         .load(img).fitCenter()
-                        .error(R.mipmap.ic_launcher)
+                        .error(R.drawable.non_disponibile)
                         .into(mangaImage);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -82,6 +83,9 @@ public class MangaDetailFragment extends Fragment {
 
             TextView chapterView = (TextView) root.findViewById(R.id.manga_detail_chapter);
             chapterView.setText("Numero Capitoli: " + chapther);
+
+            TextView genresView = (TextView) root.findViewById(R.id.manga_detail_genres);
+            genresView.setText(genres);
 
         }else{
             /*

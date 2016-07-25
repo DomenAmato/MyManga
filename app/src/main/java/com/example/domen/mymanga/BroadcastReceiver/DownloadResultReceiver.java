@@ -10,6 +10,8 @@ import com.example.domen.mymanga.Activity.AllMangaActivity;
 import com.example.domen.mymanga.Fragments.MangaDetailFragment;
 import com.example.domen.mymanga.Models.Contract;
 import com.example.domen.mymanga.R;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -36,6 +38,8 @@ public class DownloadResultReceiver extends BroadcastReceiver {
         String chapter;
         String title;
         String image;
+        JSONArray genresArray;
+        String genres = "";
 
         //Recupero il JSON dall'extra dell'Intent
         String stringJSON = intent.getBundleExtra("myExtraBundle").getString("Result");
@@ -53,7 +57,14 @@ public class DownloadResultReceiver extends BroadcastReceiver {
             mangaBundle.putString(Contract.Manga.COLUMN_TITLE, title);
             image = myActivity.getString(R.string.im_base_url)+mangaJSON.getString("image");
             mangaBundle.putString(Contract.Manga.COLUMN_IMG, image);
-
+            genresArray = mangaJSON.getJSONArray("categories");
+            for(int i = 0; i<genresArray.length();i++){
+                if(genres != "")
+                    genres += ", "+genresArray.get(i);
+                else
+                    genres += genresArray.get(i);
+            }
+            mangaBundle.putString("genres", genres);
             /*
             *   Creo un'istanza del Fragment con i dati del Bundle creato
             */

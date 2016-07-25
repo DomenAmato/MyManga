@@ -56,7 +56,7 @@ public class AllMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         try {
             Glide.with(holder.mangaImage.getContext())
                     .load(imageUrl).fitCenter()
-                    .error(R.mipmap.ic_launcher)
+                    .error(R.drawable.non_disponibile)
                     .into(holder.mangaImage);
         } catch (Exception e) {
             e.printStackTrace();

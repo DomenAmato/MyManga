@@ -54,6 +54,10 @@ public class MangaListFragment extends Fragment implements LoaderManager.LoaderC
         mangaList = (AutoSpanRecyclerView) view.findViewById(R.id.all_manga_list);
         mangaList.setGridLayoutManager(RecyclerView.VERTICAL, R.layout.all_manga_item, 1);
         mangaList.setHasFixedSize(true);
+
+        /*
+        *   Inserisce la funzionalità di fast scroll per la lista
+        */
         FastScroller fastScroller = (FastScroller) view.findViewById(R.id.fastscroll);
         fastScroller.setRecyclerView((RecyclerView) mangaList);
 
